@@ -1,4 +1,4 @@
-# Create Redux State
+# Redux Create State
 
 A utility library (or actually just one function) to ease the process of creating a new state object immutably in Redux.
 
