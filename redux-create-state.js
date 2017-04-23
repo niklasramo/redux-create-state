@@ -61,7 +61,7 @@
   function createState(currentState) {
 
     // Clone (shallow) the current state object/array.
-    var newState = isPlainObject(currentState) ? Object.assign({}, currentState) :
+    var newState = isPlainObject(currentState) ? cloneObject(currentState) :
       Array.isArray(currentState) ? currentState.concat() :
       null;
 
@@ -97,7 +97,7 @@
         if (key.charAt(0) === '#') {
           key = parseInt(key.substring(1)) || 0;
           if (key < 0) {
-            key = Math.max(0, pointer[key].length + key)
+            key = Math.max(0, pointer[key].length + key);
           }
         }
 
@@ -112,7 +112,7 @@
             pointer[key] = Array.isArray(pointer[key]) ? pointer[key].concat() : [];
           }
           else {
-            pointer[key] = isPlainObject(pointer[key]) ? Object.assign({}, pointer[key]) : {};
+            pointer[key] = isPlainObject(pointer[key]) ? cloneObject(pointer[key]) : {};
           }
           pointer = pointer[key];
         }
@@ -134,7 +134,31 @@
    * @returns {Boolean}
    */
   function isPlainObject(val) {
+
     return typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]';
+
+  }
+
+  /**
+   * Shallow clone an object.
+   *
+   * @private
+   * @param {Object} obj
+   * @returns {Object}
+   */
+  function cloneObject(obj) {
+
+    var ret = {};
+    if (typeof Object.assign === 'function') {
+      return Object.assign(ret, obj);
+    }
+    else {
+      Object.keys().forEach(function (key) {
+        ret[key] = obj[key];
+      });
+      return ret;
+    }
+
   }
 
   /**

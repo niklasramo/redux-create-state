@@ -7,7 +7,7 @@
     "state",
     "immutable"
   ],
-  "homepage": "https://github.com/niklasramo/create-redux-state",
+  "homepage": "https://github.com/niklasramo/redux-create-state",
   "license": "MIT",
   "author": {
     "name": "Niklas Rämö",
@@ -15,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:niklasramo/create-redux-state.git"
+    "url": "git@github.com:niklasramo/redux-create-state.git"
   },
-  "main": "create-redux-state.js",
+  "main": "redux-create-state.js",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-jscs": "^4.0.0",
