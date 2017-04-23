@@ -1,0 +1,30 @@
+{
+  "name": "redux-create-state",
+  "version": "0.1.0-dev",
+  "description": "Create new Redux state immutably",
+  "keywords": [
+    "redux",
+    "state",
+    "immutable"
+  ],
+  "homepage": "https://github.com/niklasramo/create-redux-state",
+  "license": "MIT",
+  "author": {
+    "name": "Niklas Rämö",
+    "email": "inramo@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:niklasramo/create-redux-state.git"
+  },
+  "main": "create-redux-state.js",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jscs": "^4.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-size": "^2.1.0",
+    "gulp-uglify": "^2.1.2",
+    "jsdoc-parse": "^3.0.0",
+    "run-sequence": "^1.2.2"
+  }
+}
