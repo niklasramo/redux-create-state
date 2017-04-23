@@ -3,7 +3,7 @@
 A utility library (or actually just one function) to ease the process of creating a new state object immutably in Redux.
 
 ```javascript
-import createState from 'create-redux-state';
+import createState from 'redux-create-state';
 const state = {
   items: [
     {id: 1, value: 'foo'},
