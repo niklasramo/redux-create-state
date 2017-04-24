@@ -181,11 +181,17 @@
    */
 
   /**
-   * An insert operation defined with an array of two items. The first item is
-   * the value's path and the second item is the value that should be set to the
-   * provided path. The path is just a string where each path step (object key)
-   * is separated with a dot (.). You can also use an array index as path step
-   * by prefixing the key with octothorpe (#).
+   * A single insert operation is defined with an array consisting of two
+   * items. The first item is the inserted value's path and the second item is
+   * the actual value. The path is just a string where each path step (object
+   * key) is separated with a dot (e.g. 'foo.bar.baz'). You can also use an
+   * array index as path step by prefixing the key with octothorpe (e.g.
+   * 'items.#1'). If the insert path does not exist it will be created. Every
+   * existing step in the path will be cloned. If the insert operation's value
+   * is a function it will be called and it's return value will be set as the
+   * insert path's value. The function receives the current value (already
+   * cloned if object or array) as it's first argument and the parent
+   * object/array as it's second argument (also already cloned).
    *
    * @typedef {Array} Update
    * @param {String} path
