@@ -8,29 +8,22 @@ var runSequence = require('run-sequence');
 var jsdocParse = require('jsdoc-parse');
 
 gulp.task('validate', function () {
-
   return gulp
-  .src(pkg.main)
-  .pipe(jscs())
-  .pipe(jscs.reporter());
-
+    .src(pkg.main)
+    .pipe(jscs())
+    .pipe(jscs.reporter());
 });
 
 gulp.task('compress', function() {
-
   var mainMinified = pkg.main.replace('.js', '.min.js');
-
   return gulp
-  .src(pkg.main)
-  .pipe(size({title: 'development'}))
-  .pipe(uglify({
-    preserveComments: 'some'
-  }))
-  .pipe(size({title: 'minified'}))
-  .pipe(size({title: 'gzipped', gzip: true}))
-  .pipe(rename(mainMinified))
-  .pipe(gulp.dest('./'));
-
+    .src(pkg.main)
+    .pipe(size({title: 'development'}))
+    .pipe(uglify({preserveComments: 'some'}))
+    .pipe(size({title: 'minified'}))
+    .pipe(size({title: 'gzipped', gzip: true}))
+    .pipe(rename(mainMinified))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', function (done) {

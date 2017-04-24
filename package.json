@@ -1,6 +1,6 @@
 {
   "name": "redux-create-state",
-  "version": "0.1.0-dev",
+  "version": "0.1.0",
   "description": "Create new Redux state immutably",
   "keywords": [
     "redux",
@@ -18,7 +18,11 @@
     "url": "git@github.com:niklasramo/redux-create-state.git"
   },
   "main": "redux-create-state.js",
+  "scripts": {
+    "test": "ava -v"
+  },
   "devDependencies": {
+    "ava": "^0.19.1",
     "gulp": "^3.9.1",
     "gulp-jscs": "^4.0.0",
     "gulp-rename": "^1.2.2",
