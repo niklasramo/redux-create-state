@@ -1,9 +1,10 @@
 {
   "name": "redux-create-state",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Create new Redux state immutably",
   "keywords": [
     "redux",
+    "create",
     "state",
     "immutable"
   ],
