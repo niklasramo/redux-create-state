@@ -1,5 +1,5 @@
 /*!
- * redux-create-state v0.1.0
+ * redux-create-state v1.0.0
  * https://github.com/niklasramo/mezr
  * Copyright (c) 2017 Niklas Rämö <inramo@gmail.com>
  * Released under the MIT license
