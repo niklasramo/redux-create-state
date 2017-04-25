@@ -103,7 +103,7 @@ import createState from 'redux-create-state';
 const state = {a: {b: { c: 'foo' } } };
 const newState = createState(state, ['a.b.c', 'bar']);
 console.log(newState);
-// => {a: {b: { c: 'foo' } } }
+// => {a: {b: { c: 'bar' } } }
 ```
 
 **Create deeply nested object**
