@@ -5,18 +5,15 @@
  * Released under the MIT license
  */
 
-(function (root, factory) {
+(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);
-  }
-  else if (typeof module === 'object' && module.exports) {
+  } else if (typeof module === 'object' && module.exports) {
     module.exports = factory();
-  }
-  else {
+  } else {
     root.reduxCreateState = factory();
   }
-}(this, function () {
-
+})(this, function() {
   /**
    * Takes in the current state (array or object) and returns a new state which
    * is a shallow copy of the current state. Optionally you can provide any
@@ -59,9 +56,22 @@
    * @returns {State}
    */
   function createState(currentState) {
-
     // Clone (shallow) the current state object/array.
     var newState = cloneValue(currentState);
+
+    // Store the current array indicator for the duration of this function.
+    var arrayIndicator = createState._arrayIndexIndicator;
+
+    // Init other variables.
+    var argsLength;
+    var insert;
+    var pointer;
+    var path;
+    var pathValue;
+    var key;
+    var nextKey;
+    var i;
+    var ii;
 
     // If the new state is the object as the current state, let's throw an
     // error. Basically this situation should only occur if the current state is
@@ -71,60 +81,56 @@
     }
 
     // Cache arguments length.
-    var argsLength = arguments.length;
+    argsLength = arguments.length;
 
     // Loop through the insert operations.
-    for (var i = 1; i < argsLength; i++) {
-
-      var insert = arguments[i];
-      var pointer = newState;
-      var insertPath = insert[0].split('.');
-      var insertValue = insert[1];
+    for (i = 1; i < argsLength; i++) {
+      insert = arguments[i];
+      pointer = newState;
+      path = insert[0].split('.');
+      pathValue = insert[1];
 
       // Go to the path or create it if it does not exist yet, and set the
       // value. Make sure that each existing array and object is cloned to
       // guarantee immutability for the inserted values and their paths.
-      for (var ii = 0; ii < insertPath.length; ii++) {
+      for (ii = 0; ii < path.length; ii++) {
+        if (!path[ii]) continue;
 
-        if (!insertPath[ii]) {
-          continue;
-        }
-
-        var key = insertPath[ii];
-        var nextKey = insertPath[ii + 1];
+        key = path[ii];
+        nextKey = path[ii + 1];
 
         // If key is an array index, format it into a valid index.
-        if (key.charAt(0) === '#') {
-          key = parseInt(key.substring(1)) || 0;
+        if (key.indexOf(arrayIndicator) === 0) {
+          key = +key.substring(arrayIndicator.length) || 0;
+          // If a negative index is provided start reading from the end.
           if (key < 0) {
-            key = Math.max(0, pointer.length + key);
+            key = pointer.length + key;
+            if (key < 0) key = 0;
           }
         }
 
         // If this is the last key, let's set the value.
         if (!nextKey) {
-          pointer[key] = typeof insertValue === 'function' ? insertValue(cloneValue(pointer[key]), pointer) : insertValue;
+          pointer[key] =
+            typeof pathValue === 'function'
+              ? pathValue(cloneValue(pointer[key]), pointer)
+              : pathValue;
+          continue;
         }
 
-        // Otherwise, let's create the path object/array.
-        else {
-          if (nextKey.charAt(0) === '#') {
-            pointer[key] = Array.isArray(pointer[key]) ? pointer[key].concat() : [];
-          }
-          else {
-            pointer[key] = isPlainObject(pointer[key]) ? cloneObject(pointer[key]) : {};
-          }
-          pointer = pointer[key];
-        }
-
+        // Let's create the path object/array.
+        pointer = pointer[key] = !nextKey.indexOf(arrayIndicator)
+          ? Array.isArray(pointer[key]) ? pointer[key].concat() : []
+          : isPlainObject(pointer[key]) ? cloneObject(pointer[key]) : {};
       }
-
     }
 
     // Return the new state.
     return newState;
-
   }
+
+  // The character that is used to detect array indices.
+  createState._arrayIndexIndicator = '#';
 
   /**
    * Check if a value is a plain object.
@@ -134,9 +140,7 @@
    * @returns {Boolean}
    */
   function isPlainObject(val) {
-
     return typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]';
-
   }
 
   /**
@@ -147,18 +151,15 @@
    * @returns {Object}
    */
   function cloneObject(obj) {
-
     var ret = {};
-    if (typeof Object.assign === 'function') {
-      return Object.assign(ret, obj);
-    }
-    else {
-      Object.keys().forEach(function (key) {
-        ret[key] = obj[key];
-      });
-      return ret;
+    var keys = Object.keys(obj);
+    var i;
+
+    for (i = 0; i < keys.length; i++) {
+      ret[keys[i]] = obj[keys[i]];
     }
 
+    return ret;
   }
 
   /**
@@ -169,9 +170,9 @@
    * @returns {*}
    */
   function cloneValue(value) {
-
-    return isPlainObject(value) ? cloneObject(value) : Array.isArray(value) ? value.concat() : value;
-
+    return isPlainObject(value)
+      ? cloneObject(value)
+      : Array.isArray(value) ? value.concat() : value;
   }
 
   /**
@@ -199,5 +200,4 @@
    */
 
   return createState;
-
-}));
+});

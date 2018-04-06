@@ -1,6 +1,6 @@
 {
   "name": "redux-create-state",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create new Redux state immutably",
   "keywords": [
     "redux",
@@ -20,16 +20,13 @@
   },
   "main": "redux-create-state.js",
   "scripts": {
-    "test": "ava -v"
+    "test": "ava -v",
+    "minify": "./node_modules/.bin/uglifyjs ./redux-create-state.js --output ./redux-create-state.min.js --comments /^!/",
+    "format": "find ./redux-create-state.js | xargs -I{} ./node_modules/.bin/prettier --write {}"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
-    "gulp": "^3.9.1",
-    "gulp-jscs": "^4.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-size": "^2.1.0",
-    "gulp-uglify": "^2.1.2",
-    "jsdoc-parse": "^3.0.0",
-    "run-sequence": "^1.2.2"
+    "ava": "^0.25.0",
+    "prettier": "1.11.1",
+    "uglify-js": "^3.3.18"
   }
 }
